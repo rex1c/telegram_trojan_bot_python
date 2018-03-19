@@ -5,6 +5,7 @@ requirements are : for windows os => python 2.7(https://www.python.org/ftp/pytho
 lib/module => autopy,wget,pyaudio,wave,ctypes
 
 os windows => python -m pip install lib/module
+
 os linux => pip install lib/module
 
 
