@@ -8,6 +8,6 @@ os windows => python -m pip install lib/module
 
 os linux => pip install lib/module
 
-
+[+] thanks for @zero_d4y and @Mr_Zd
 
 have fun :)
